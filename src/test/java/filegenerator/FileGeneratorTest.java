@@ -1,6 +1,9 @@
 package filegenerator;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -22,16 +25,31 @@ public class FileGeneratorTest {
 		expectedFilePath = "/Users/alexander/Documents/FileGenerator/"; // expected
 																		// path
 		expectedFileName = "test.txt"; // expected name
-		File file = new File(expectedFilePath + expectedFileName); // file
-																	// object
-																	// with this
-																	// name and
-																	// path
-		fileGenerator.createFile(expectedFilePath, expectedFileName, "some text here");
-		Assert.assertTrue(file.exists(), "File does not exist!"); // verify if
-																	// file
-																	// exist or
-																	// not
+		expectedFileContent = "some text here";
 
+		// file object with this name and path
+
+		File file = new File(expectedFilePath + expectedFileName);
+		// use creatFile method to create file
+
+		fileGenerator.createFile(expectedFilePath, expectedFileName, "some text here");
+		// verify if file exist or not
+
+		Assert.assertTrue(file.exists(), "File does not exist! ");
+
+		// verify if file is readable
+
+		Assert.assertTrue(file.canRead(), "File can not be read! ");
+		try {
+			FileReader fileReader = new FileReader(file);
+			Scanner scan = new Scanner(fileReader);
+			while (scan.hasNext()) {
+				fileContent.append(scan.nextLine());
+			}
+			fileReader.close();
+			Assert.assertEquals(fileContent.toString(), expectedFileContent, "File content is not the same!");
+		} catch (IOException e) {
+			Assert.assertTrue(false, "Error while reading file!");
+		}
 	}
 }

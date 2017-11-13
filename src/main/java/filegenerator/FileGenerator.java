@@ -1,6 +1,7 @@
 package filegenerator;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileGenerator {
@@ -16,6 +17,10 @@ public class FileGenerator {
 		File file = new File(filePath + fileName);
 		try {
 			file.createNewFile();
+			FileWriter fileWriter = new FileWriter(file);
+			fileWriter.write(generatedString);
+			fileWriter.close();
+
 		} catch (IOException e) {
 
 			e.printStackTrace();
