@@ -28,7 +28,7 @@ public class FileGenerator {
 	}
 
 	public String multiplyString(String stringToMultiply, int numberOfStrings, boolean newLine, String separator) {
-		String resultString = "";
+		String resultString;
 		StringBuffer buffer = new StringBuffer();
 		stringToMultiply = stringToMultiply + separator;
 		for (int i = 0; i < numberOfStrings; i++) {
@@ -41,6 +41,14 @@ public class FileGenerator {
 
 		}
 		resultString = buffer.toString();
+		return resultString;
+
+	}
+
+	public String generateRandomString(int charNumber, boolean includeSpecChar, boolean includeNumber,
+			boolean includeUpperCase) {
+		String resultString;
+		resultString = "";
 		return resultString;
 
 	}
