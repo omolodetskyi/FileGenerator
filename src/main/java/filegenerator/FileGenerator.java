@@ -31,11 +31,14 @@ public class FileGenerator {
 		String resultString = "";
 		StringBuffer buffer = new StringBuffer();
 		stringToMultiply = stringToMultiply + separator;
-		if (newLine) {
-			stringToMultiply = stringToMultiply + System.getProperty("line.separator");
-		}
 		for (int i = 0; i < numberOfStrings; i++) {
 			buffer.append(stringToMultiply);
+			if (newLine) {
+				if (i < numberOfStrings - 1) {
+					buffer.append(System.getProperty("line.separator"));
+				}
+			}
+
 		}
 		resultString = buffer.toString();
 		return resultString;
