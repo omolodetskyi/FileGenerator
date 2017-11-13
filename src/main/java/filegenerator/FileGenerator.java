@@ -27,6 +27,21 @@ public class FileGenerator {
 		}
 	}
 
+	public String multiplyString(String stringToMultiply, int numberOfStrings, boolean newLine, String separator) {
+		String resultString = "";
+		StringBuffer buffer = new StringBuffer();
+		stringToMultiply = stringToMultiply + separator;
+		if (newLine) {
+			stringToMultiply = stringToMultiply + System.getProperty("line.separator");
+		}
+		for (int i = 0; i < numberOfStrings; i++) {
+			buffer.append(stringToMultiply);
+		}
+		resultString = buffer.toString();
+		return resultString;
+
+	}
+
 	public FileGenerator() {
 
 	}

@@ -52,4 +52,12 @@ public class FileGeneratorTest {
 			Assert.assertTrue(false, "Error while reading file!");
 		}
 	}
+
+	@Test
+	public void multiplyStringTest() {
+		// test string generated 5 times without new line, with ; as separator
+		String expectedString = "Some text here;Some text here;Some text here;Some text here;Some text here;";
+		String actualString = fileGenerator.multiplyString("Some text here", 5, false, ";");
+		Assert.assertEquals(actualString, expectedString, "Wrong string generated! ");
+	}
 }
