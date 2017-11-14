@@ -3,6 +3,7 @@ package filegenerator;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 
 public class FileGenerator {
 
@@ -45,10 +46,32 @@ public class FileGenerator {
 
 	}
 
-	public String generateRandomString(int charNumber, boolean includeSpecChar, boolean includeNumber,
+	public String generateRandomString(int charNumber, boolean includeSpecChar, boolean includeNumbers,
 			boolean includeUpperCase) {
+		String lettersLowCase = "abcdefghijklmnopqrstuvwxyz";
+		String lettersUpperCase = lettersLowCase.toUpperCase();
+		String numbers = "1234567890";
+		String specialChars = "<,>.?/\\~!@#$%^&*()_-+={[}]|\'\"";
+		String randomString;
 		String resultString;
-		resultString = "";
+		Random rnd = new Random();
+		StringBuffer sbRandomChars = new StringBuffer();
+		randomString = lettersLowCase;
+		if (includeUpperCase) {
+			randomString = randomString + lettersUpperCase;
+		}
+		if (includeNumbers) {
+			randomString = randomString + numbers;
+		}
+		if (includeSpecChar) {
+			randomString = randomString + specialChars;
+		}
+		int i = 0;
+		while (sbRandomChars.length() < charNumber) {
+			i = (rnd.nextInt(randomString.length()));
+			sbRandomChars.append(randomString.charAt(i));
+		}
+		resultString = sbRandomChars.toString();
 		return resultString;
 
 	}

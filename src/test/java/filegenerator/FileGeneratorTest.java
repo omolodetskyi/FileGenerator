@@ -70,4 +70,11 @@ public class FileGeneratorTest {
 		actualString = fileGenerator.multiplyString("Some text here", 5, true, "");
 		Assert.assertEquals(actualString, expectedString, "Wrong string generated! ");
 	}
+
+	@Test
+	public void generateRandomStringTest() {
+		int numberOfChars = 100;
+		String test = fileGenerator.generateRandomString(numberOfChars, true, true, true);
+		Assert.assertEquals(test.length(), numberOfChars, "Wrong string generated! Number of chars is not correct!");
+	}
 }
