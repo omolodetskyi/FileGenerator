@@ -15,7 +15,7 @@ public class FileGenerator {
 	// String fileName; // name of file
 
 	public void createFile(String filePath, String fileName, String generatedString) {
-		File file = new File(filePath + fileName);
+		File file = new File(filePath + "/" + fileName);
 		try {
 			file.createNewFile();
 			FileWriter fileWriter = new FileWriter(file);

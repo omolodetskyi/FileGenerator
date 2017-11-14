@@ -22,14 +22,14 @@ public class FileGeneratorTest {
 	@Test
 	public void createFileTest() {
 
-		expectedFilePath = "/Users/alexander/Documents/FileGenerator/"; // expected
+		expectedFilePath = "/Users/alexander/Documents/FileGenerator"; // expected
 																		// path
-		expectedFileName = "test.txt"; // expected name
+		expectedFileName = "test22.txt"; // expected name
 		expectedFileContent = "some text here";
 
 		// file object with this name and path
 
-		File file = new File(expectedFilePath + expectedFileName);
+		File file = new File(expectedFilePath + "/" + expectedFileName);
 		// use creatFile method to create file
 
 		fileGenerator.createFile(expectedFilePath, expectedFileName, "some text here");
