@@ -62,12 +62,19 @@ public class FileGeneratorTest {
 		String actualString = fileGenerator.multiplyString("Some text here", 5, false, ";");
 		Assert.assertEquals(actualString, expectedString, "Wrong string generated! ");
 
-		// test string generated 3 times with new line without separator
+		// test string generated 5 times with new line without separator
 
 		expectedString = "Some text here" + System.getProperty("line.separator") + "Some text here"
 				+ System.getProperty("line.separator") + "Some text here" + System.getProperty("line.separator")
 				+ "Some text here" + System.getProperty("line.separator") + "Some text here";
 		actualString = fileGenerator.multiplyString("Some text here", 5, true, "");
+		Assert.assertEquals(actualString, expectedString, "Wrong string generated! ");
+		// test string generated 5 times with line separator "." and with new
+		// line
+		expectedString = "Some text here." + System.getProperty("line.separator") + "Some text here."
+				+ System.getProperty("line.separator") + "Some text here." + System.getProperty("line.separator")
+				+ "Some text here." + System.getProperty("line.separator") + "Some text here.";
+		actualString = fileGenerator.multiplyString("Some text here", 5, true, ".");
 		Assert.assertEquals(actualString, expectedString, "Wrong string generated! ");
 	}
 
