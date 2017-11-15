@@ -1,7 +1,7 @@
 package filegenerator;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 
@@ -22,86 +22,127 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 public class FileGeneratorUI extends JFrame {
+
 	FileGenerator fg;
+
+	// Button Group for string method selecton radio buttons
+	ButtonGroup bgSelectStringMethod;
+
 	// panels for elements
 	JPanel panelMain;
-	Box boxFileGenerate;
-	Box boxStringGenerate;
-	Box boxSpinner;
+	Box boxButtons;
+	Box boxIncludeCheckBoxes;
+	Box boxSpecifyElements;
+	Box boxSpinner; // ?
+
+	// **** Use random file content part ****
+
+	// radio button to select Random string
+	JRadioButton rbRandom;
+	// Label "enter number of chars in file random content"
+	JLabel lblNumberOfChars;
+	// Text field to enter number of chars for random content
+	JTextField txtNumberOfChars;
+	// checkbox "include upper case"
+	JCheckBox chkIncludeUpperCase;
+	// checkbox "include numbers"
+	JCheckBox chkIncludeNumbers;
+	// checkbox "include special characters"
+	JCheckBox chkIncludeSpecChars;
+
+	// ***** Specify file content part ****
+
+	// radio button to select Specific string
+	JRadioButton rbSpecific;
+	// text area to "Enter file content here
+	JTextArea taSpecificString;
+	// checkbox "Repeat content following number of times:"
+	JCheckBox chkNumberofStings;
+	// Spinner to specify number of times
+	JSpinner spnNumberOfStrings;
+	// checkbox "Use new line for each repeated content"
+	JCheckBox chkNewLine;
+	// checkbox "Use this separator for each repeated content:"
+	JCheckBox chkSepartor;
+	// Text field for separator
+	JTextField txtSeparator;
+
+	// **** Buttons part ****
+
+	// Label for file name
+	JLabel lblFileName;
 	// Directory selector
 	JFileChooser selectDirectory;
 	// SelectDirectory button
 	JButton btnSelectDirectory;
-	// Label for file name
-	JLabel lblFileName;
-	//
-	JCheckBox chkNumberofStings;
-	JCheckBox chkNewLine;
-	JCheckBox chkSepartor;
-	JCheckBox chkIncludeNumbers;
-	JCheckBox chkIncludeSpecChars;
-	JCheckBox chkIncludeUpperCase;
-	JTextField txtSeparator;
-	JTextField txtNumberOfChars;
-	JTextArea taSpecificString;
-	JLabel lblNumberOfChars;
-	// Button Group for string method selecton radio buttons
-	ButtonGroup bgSelectStringMethod;
-	// radio button to select Random string
-	JRadioButton rbRandom;
-	// radio button to select Specific string
-	JRadioButton rbSpecific;
 	// Generate button
 	JButton btnGenerate;
 	// Exit button
 	JButton btnExit;
-	// Number of strings spinner
-	JSpinner spnNumberOfStrings;
-	// File object
-	// File file;
+
+	// File file path and file name;
 	String filePath = "";
 	String fileName = "";
 
 	public FileGeneratorUI() {
+
+		// TODO create new file generator warum?
 		fg = new FileGenerator();
-		panelMain = new JPanel(new BorderLayout());
-		boxFileGenerate = Box.createVerticalBox();
+
+		// create main panel
+		panelMain = new JPanel();
+		// set GridBagLayout for main panel
+		panelMain.setLayout(new GridBagLayout());
+
+		// ******************* Use random section ********************
+
+		rbRandom = new JRadioButton("Use random file content");
+		lblNumberOfChars = new JLabel("Enter number of chars for random content: ");
+		txtNumberOfChars = new JTextField(10);
+		boxIncludeCheckBoxes = Box.createVerticalBox();
+		chkIncludeUpperCase = new JCheckBox("Include upper case");
+		boxIncludeCheckBoxes.add(chkIncludeUpperCase);
+		chkIncludeNumbers = new JCheckBox("Include numbers");
+		boxIncludeCheckBoxes.add(chkIncludeNumbers);
+		chkIncludeSpecChars = new JCheckBox("Include special characters");
+		boxIncludeCheckBoxes.add(chkIncludeSpecChars);
+
+		// ******************* Specify content section ****************
+
+		boxSpecifyElements = Box.createVerticalBox();
+		rbSpecific = new JRadioButton("Specify file content");
+		boxSpecifyElements.add(rbSpecific);
+		taSpecificString = new JTextArea("Enter file content here");
+		boxSpecifyElements.add(taSpecificString);
+		chkNumberofStings = new JCheckBox("Repeat content following number of times:");
 		SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 1000000, 1);
 		JSpinner spnNumberOfStrings = new JSpinner(spinnerModel);
-		chkNumberofStings = new JCheckBox("Repeat content following number of times: ");
 		chkNewLine = new JCheckBox("Use new line for each repeated content");
-		chkSepartor = new JCheckBox("Use following separator for each repeated content");
-		boxStringGenerate = Box.createVerticalBox();
-		boxSpinner = Box.createHorizontalBox();
+		chkIncludeSpecChars = new JCheckBox("Use this separator for each repeated content:");
+		txtSeparator = new JTextField(10);
+
+		// ***************** Buttons section ***********************
+
 		selectDirectory = new JFileChooser();
-
 		selectDirectory.setFileSelectionMode(selectDirectory.DIRECTORIES_ONLY);
-		btnSelectDirectory = new JButton("Select directory and enter file name");
-
-		bgSelectStringMethod = new ButtonGroup();
-		rbRandom = new JRadioButton("Use random file content");
-		rbSpecific = new JRadioButton("Specify file content");
-
-		bgSelectStringMethod.add(rbRandom);
-		bgSelectStringMethod.add(rbSpecific);
-
-		rbRandom.setSelected(true);
-
-		boxStringGenerate.add(rbRandom);
-		boxStringGenerate.add(rbSpecific);
-		boxSpinner.add(chkNumberofStings);
-		boxSpinner.add(spnNumberOfStrings);
-
 		lblFileName = new JLabel("");
+		boxButtons = Box.createHorizontalBox();
+		btnSelectDirectory = new JButton("Select directory and enter file name");
+		boxButtons.add(btnSelectDirectory);
+		boxButtons.add(btnGenerate);
+		boxButtons.add(btnExit);
 		btnGenerate = new JButton("Generate");
 		btnExit = new JButton("Exit");
-		panelMain.add(boxStringGenerate, BorderLayout.NORTH);
-		panelMain.add(boxSpinner, BorderLayout.CENTER);
-		boxFileGenerate.add(lblFileName);
-		boxFileGenerate.add(btnSelectDirectory);
-		boxFileGenerate.add(btnGenerate);
-		boxFileGenerate.add(btnExit);
-		panelMain.add(boxFileGenerate, BorderLayout.SOUTH);
+
+		// ***********************************************************
+
+		// adding radiobutton to the group
+
+		bgSelectStringMethod = new ButtonGroup();
+		bgSelectStringMethod.add(rbRandom);
+		bgSelectStringMethod.add(rbSpecific);
+		rbRandom.setSelected(true); // by default Random is selected
+
 		this.add(panelMain);
 		this.setSize(800, 300);
 		this.setResizable(false);
