@@ -63,7 +63,7 @@ public class FileGeneratorUI extends JFrame {
 	// checkbox "Use new line for each repeated content"
 	JCheckBox chkNewLine;
 	// checkbox "Use this separator for each repeated content:"
-	JCheckBox chkSepartor;
+	JCheckBox chkSeparator;
 	// Text field for separator
 	JTextField txtSeparator;
 
@@ -118,7 +118,7 @@ public class FileGeneratorUI extends JFrame {
 		SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 1000000, 1);
 		JSpinner spnNumberOfStrings = new JSpinner(spinnerModel);
 		chkNewLine = new JCheckBox("Use new line for each repeated content");
-		chkIncludeSpecChars = new JCheckBox("Use this separator for each repeated content:");
+		chkSeparator = new JCheckBox("Use this separator for each repeated content:");
 		txtSeparator = new JTextField(10);
 
 		// ***************** Buttons section ***********************
@@ -129,10 +129,10 @@ public class FileGeneratorUI extends JFrame {
 		boxButtons = Box.createHorizontalBox();
 		btnSelectDirectory = new JButton("Select directory and enter file name");
 		boxButtons.add(btnSelectDirectory);
-		boxButtons.add(btnGenerate);
-		boxButtons.add(btnExit);
 		btnGenerate = new JButton("Generate");
+		boxButtons.add(btnGenerate);
 		btnExit = new JButton("Exit");
+		boxButtons.add(btnExit);
 
 		// ***********************************************************
 
@@ -143,11 +143,26 @@ public class FileGeneratorUI extends JFrame {
 		bgSelectStringMethod.add(rbSpecific);
 		rbRandom.setSelected(true); // by default Random is selected
 
+		// ********* forming the gridBagLayout ********
+		componentAdd(panelMain, rbRandom, 0, 0, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, lblNumberOfChars, 0, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, chkNumberofStings, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, boxIncludeCheckBoxes, 0, 3, 2, 1, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.BOTH);
+		componentAdd(panelMain, boxSpecifyElements, 0, 4, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, chkNumberofStings, 0, 5, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, spnNumberOfStrings, 1, 5, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, chkNewLine, 0, 6, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, chkSeparator, 0, 7, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, txtSeparator, 1, 7, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, lblFileName, 0, 8, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, boxButtons, 0, 9, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
 		this.add(panelMain);
-		this.setSize(800, 300);
+		this.setSize(800, 500);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// this.pack();
 		this.setTitle("File Generator");
 		this.setVisible(true);
 
