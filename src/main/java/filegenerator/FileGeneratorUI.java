@@ -212,6 +212,24 @@ public class FileGeneratorUI extends JFrame {
 
 	}
 
+	boolean[] getRandomSettings() {
+		boolean[] settings = new boolean[3];
+		settings[0] = chkIncludeSpecChars.isSelected();
+		settings[1] = chkIncludeNumbers.isSelected();
+		settings[2] = chkIncludeUpperCase.isSelected();
+		return settings;
+	}
+
+	String getSeparatorValue() {
+		String separatorValue = "";
+		if (chkSeparator.isSelected())
+			separatorValue = txtSeparator.getText();
+		else {
+			separatorValue = "";
+		}
+		return separatorValue;
+	}
+
 	int getNumberOfCharsVaue() {
 		return Integer.parseInt(txtNumberOfChars.getText());
 	}

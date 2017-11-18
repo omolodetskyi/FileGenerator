@@ -67,11 +67,12 @@ public class FileGeneratorController {
 
 			} else {
 				if (fg.getRandom()) {
-					generatedString = fg.generateRandomString(fgui.getNumberOfCharsVaue(),
-							fgui.chkIncludeSpecChars.isSelected(), fgui.chkIncludeNumbers.isSelected(),
-							fgui.chkIncludeUpperCase.isSelected());
+					boolean[] settings = fgui.getRandomSettings();
+					generatedString = fg.generateRandomString(fgui.getNumberOfCharsVaue(), settings[0], settings[1],
+							settings[2]);
 				} else {
-					generatedString = fg.multiplyString("Some Text", 50, true, "::");
+					generatedString = fg.multiplyString(fgui.taSpecificString.getText(), fgui.getSpinnerValue(),
+							fgui.chkNewLine.isSelected(), fgui.getSeparatorValue());
 				}
 
 				fg.createFile(fg.getFilePath(), fg.getFileName(), generatedString);
