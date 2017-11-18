@@ -6,6 +6,41 @@ import java.io.IOException;
 import java.util.Random;
 
 public class FileGenerator {
+	private String fileName;
+	private String filePath;
+	private boolean isRandom;
+
+	public boolean getRandom() {
+		return isRandom;
+	}
+
+	public void setRandom(boolean isRandom) {
+		this.isRandom = isRandom;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public StringBuffer getFileString() {
+		return fileString;
+	}
+
+	public void setFileString(StringBuffer fileString) {
+		this.fileString = fileString;
+	}
 
 	StringBuffer fileString = new StringBuffer(); // file content will be stored
 													// here
@@ -127,7 +162,10 @@ public class FileGenerator {
 	}
 
 	public FileGenerator() {
-
+		this.setFileName("");
+		this.setFilePath("");
+		this.setFileString(null);
+		this.setRandom(true);
 	}
 
 }

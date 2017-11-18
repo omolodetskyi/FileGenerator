@@ -80,14 +80,7 @@ public class FileGeneratorUI extends JFrame {
 	// Exit button
 	JButton btnExit;
 
-	// File file path and file name;
-	String filePath = "";
-	String fileName = "";
-
 	public FileGeneratorUI() {
-
-		// TODO create new file generator warum?
-		fg = new FileGenerator();
 
 		// create main panel
 		panelMain = new JPanel();
@@ -97,8 +90,11 @@ public class FileGeneratorUI extends JFrame {
 		// ******************* Use random section ********************
 
 		rbRandom = new JRadioButton("Use random file content");
+		rbRandom.setSelected(true);
+		rbRandom.setActionCommand("random");
 		lblNumberOfChars = new JLabel("Enter number of chars for random content: ");
 		txtNumberOfChars = new JTextField(10);
+		txtNumberOfChars.setText("1");
 		boxIncludeCheckBoxes = Box.createVerticalBox();
 		chkIncludeUpperCase = new JCheckBox("Include upper case");
 		boxIncludeCheckBoxes.add(chkIncludeUpperCase);
@@ -111,15 +107,17 @@ public class FileGeneratorUI extends JFrame {
 
 		boxSpecifyElements = Box.createVerticalBox();
 		rbSpecific = new JRadioButton("Specify file content");
+		rbSpecific.setActionCommand("specific");
 		boxSpecifyElements.add(rbSpecific);
-		taSpecificString = new JTextArea("Enter file content here");
+		taSpecificString = new JTextArea("Enter file content here", 30, 50);
 		boxSpecifyElements.add(taSpecificString);
 		chkNumberofStings = new JCheckBox("Repeat content following number of times:");
 		SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 1000000, 1);
-		JSpinner spnNumberOfStrings = new JSpinner(spinnerModel);
+		spnNumberOfStrings = new JSpinner(spinnerModel);
 		chkNewLine = new JCheckBox("Use new line for each repeated content");
 		chkSeparator = new JCheckBox("Use this separator for each repeated content:");
 		txtSeparator = new JTextField(10);
+		setRandomEnabled();
 
 		// ***************** Buttons section ***********************
 
@@ -141,22 +139,26 @@ public class FileGeneratorUI extends JFrame {
 		bgSelectStringMethod = new ButtonGroup();
 		bgSelectStringMethod.add(rbRandom);
 		bgSelectStringMethod.add(rbSpecific);
-		rbRandom.setSelected(true); // by default Random is selected
+		// by default Random is selected
 
 		// ********* forming the gridBagLayout ********
 		componentAdd(panelMain, rbRandom, 0, 0, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
 		componentAdd(panelMain, lblNumberOfChars, 0, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, txtNumberOfChars, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
 		componentAdd(panelMain, chkNumberofStings, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
 		componentAdd(panelMain, boxIncludeCheckBoxes, 0, 3, 2, 1, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.BOTH);
-		componentAdd(panelMain, boxSpecifyElements, 0, 4, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
-		componentAdd(panelMain, chkNumberofStings, 0, 5, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
-		componentAdd(panelMain, spnNumberOfStrings, 1, 5, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
-		componentAdd(panelMain, chkNewLine, 0, 6, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
-		componentAdd(panelMain, chkSeparator, 0, 7, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
-		componentAdd(panelMain, txtSeparator, 1, 7, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
-		componentAdd(panelMain, lblFileName, 0, 8, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
-		componentAdd(panelMain, boxButtons, 0, 9, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, rbSpecific, 0, 4, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, rbSpecific, 0, 5, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, taSpecificString, 0, 6, 2, 2, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.HORIZONTAL);
+		componentAdd(panelMain, chkNumberofStings, 0, 8, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, spnNumberOfStrings, 1, 8, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE);
+		componentAdd(panelMain, chkNewLine, 0, 9, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, chkSeparator, 0, 10, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, txtSeparator, 1, 10, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, lblFileName, 0, 11, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
+		componentAdd(panelMain, boxButtons, 0, 12, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH);
 		this.add(panelMain);
 		this.setSize(800, 500);
 		this.setResizable(false);
@@ -168,10 +170,50 @@ public class FileGeneratorUI extends JFrame {
 
 	}
 
+	void setRandomEnabled() {
+		txtNumberOfChars.setEnabled(true);
+
+		chkIncludeUpperCase.setEnabled(true);
+
+		chkIncludeNumbers.setEnabled(true);
+
+		chkIncludeSpecChars.setEnabled(true);
+
+		taSpecificString.setEnabled(false);
+
+		chkNumberofStings.setEnabled(false);
+		spnNumberOfStrings.setEnabled(false);
+		chkNewLine.setEnabled(false);
+		chkSeparator.setEnabled(false);
+		txtSeparator.setEnabled(false);
+	}
+
+	void setSpecificEnabled() {
+		taSpecificString.setEnabled(true);
+
+		chkNumberofStings.setEnabled(true);
+		spnNumberOfStrings.setEnabled(true);
+		chkNewLine.setEnabled(true);
+		chkSeparator.setEnabled(true);
+		txtSeparator.setEnabled(true);
+		txtNumberOfChars.setEnabled(true);
+
+		txtNumberOfChars.setEnabled(false);
+		chkIncludeUpperCase.setEnabled(false);
+
+		chkIncludeNumbers.setEnabled(false);
+
+		chkIncludeSpecChars.setEnabled(false);
+	}
+
 	int getSpinnerValue() {
 
 		return (Integer) spnNumberOfStrings.getValue();
 
+	}
+
+	int getNumberOfCharsVaue() {
+		return Integer.parseInt(txtNumberOfChars.getText());
 	}
 
 	void addExitListener(ActionListener ExitButton) {
@@ -180,6 +222,14 @@ public class FileGeneratorUI extends JFrame {
 
 	void addGenerateListener(ActionListener GenerateButton) {
 		btnGenerate.addActionListener(GenerateButton);
+	}
+
+	void addRandomOptionListener(ActionListener RandomOption) {
+		rbRandom.addActionListener(RandomOption);
+	}
+
+	void addSpecificOptionListener(ActionListener SpecificOption) {
+		rbSpecific.addActionListener(SpecificOption);
 	}
 
 	void addSelectDirectoryListener(ActionListener SelectDirectoryButton) {

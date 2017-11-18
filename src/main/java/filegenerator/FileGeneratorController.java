@@ -6,11 +6,12 @@ import java.awt.event.ActionListener;
 public class FileGeneratorController {
 	private FileGenerator fg;
 	private FileGeneratorUI fgui;
-	public String filePath, fileName;
 
 	public FileGeneratorController(FileGenerator fg, FileGeneratorUI fgui) {
 		this.fg = fg;
 		this.fgui = fgui;
+		fgui.addRandomOptionListener(new SelectRandom());
+		fgui.addSpecificOptionListener(new SelectSpecific());
 		fgui.addGenerateListener(new Generate());
 		fgui.addSelectDirectoryListener(new SelectDirectory());
 		fgui.addExitListener(new Exit());
@@ -24,30 +25,56 @@ public class FileGeneratorController {
 
 	}
 
+	class SelectRandom implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			fgui.setRandomEnabled();
+			fg.setRandom(true);
+
+		}
+	}
+
+	class SelectSpecific implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			fgui.setSpecificEnabled();
+			fg.setRandom(false);
+
+		}
+
+	}
+
 	class SelectDirectory implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
 			String[] selectedFile;
 
 			selectedFile = fgui.showSelectDirectoryDialog();
-			System.out.println(selectedFile[0] + " and " + selectedFile[1]);
-			filePath = selectedFile[0];
-			fileName = selectedFile[1];
+
+			fg.setFileName(selectedFile[1]);
+			fg.setFilePath(selectedFile[0]);
 
 		}
 
 	}
 
 	class Generate implements ActionListener {
+		String generatedString = "";
 
 		public void actionPerformed(ActionEvent e) {
-			if (filePath.isEmpty() || fileName.isEmpty()) {
+			if (fg.getFilePath().isEmpty() || fg.getFileName().isEmpty()) {
 				fgui.setFilePathLabel("You have NOT selected a directory or NOT entered file name! Please try again.");
 
 			} else {
+				if (fg.getRandom()) {
+					generatedString = fg.generateRandomString(fgui.getNumberOfCharsVaue(),
+							fgui.chkIncludeSpecChars.isSelected(), fgui.chkIncludeNumbers.isSelected(),
+							fgui.chkIncludeUpperCase.isSelected());
+				} else {
+					generatedString = fg.multiplyString("Some Text", 50, true, "::");
+				}
 
-				String generatedString = fg.generateRandomString(50, true, true, true);
-				fg.createFile(filePath, fileName, generatedString);
+				fg.createFile(fg.getFilePath(), fg.getFileName(), generatedString);
 			}
 
 		}
