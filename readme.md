@@ -11,4 +11,4 @@ Filegenerator is the application which has following features:
 ## Install
  No installation needed. As  pre-requisite you need JRE1.7 or upper installed on your machine.
 ## User Interface
-![FileGenerator UI](/images/FileGeneratorUI.png)
+![FileGenerator UI](https://user-images.githubusercontent.com/16938925/32995278-ea324c92-cd7a-11e7-9e60-3d49fe20c91b.png)
