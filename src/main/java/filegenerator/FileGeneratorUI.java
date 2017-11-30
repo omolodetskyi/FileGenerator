@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -112,6 +114,7 @@ public class FileGeneratorUI extends JFrame {
 		boxSpecifyElements.add(rbSpecific);
 		taSpecificString = new JTextArea("Enter file content here");
 		taSpecificString.setPreferredSize(new Dimension(414, 40));
+		taSpecificString.addFocusListener(new typeInTextArea());
 		boxSpecifyElements.add(taSpecificString);
 		chkNumberofStings = new JCheckBox("Repeat content following number of times:");
 		SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 1000000, 1);
@@ -294,6 +297,22 @@ public class FileGeneratorUI extends JFrame {
 		lblFileName.setText(filepath);
 	}
 
+	class typeInTextArea implements FocusListener {
+
+		public void focusGained(FocusEvent e) {
+			if (taSpecificString.getText().equals("Enter file content here")) {
+				taSpecificString.setText("");
+			}
+		}
+
+		public void focusLost(FocusEvent e) {
+			if (taSpecificString.getText().equals("")) {
+				taSpecificString.setText("Enter file content here");
+			}
+
+		}
+	}
+
 	private void componentAdd(JPanel thePanel, JComponent comp, int xPos, int yPos, int compWidth, int compHeight,
 			double compWeightx, double comWeighty, int place, int stretch, Insets insets) {
 		GridBagConstraints gridConstraints = new GridBagConstraints();
@@ -321,5 +340,4 @@ public class FileGeneratorUI extends JFrame {
 		thePanel.add(comp, gridConstraints);
 
 	}
-
 }
