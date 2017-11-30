@@ -1,5 +1,6 @@
 package filegenerator;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -93,7 +94,7 @@ public class FileGeneratorUI extends JFrame {
 		rbRandom.setSelected(true);
 		rbRandom.setActionCommand("random");
 		lblNumberOfChars = new JLabel("Enter number of chars for random content: ");
-		txtNumberOfChars = new JTextField(10);
+		txtNumberOfChars = new JTextField(4);
 		txtNumberOfChars.setText("1");
 		boxIncludeCheckBoxes = Box.createVerticalBox();
 		chkIncludeUpperCase = new JCheckBox("Include upper case");
@@ -109,14 +110,16 @@ public class FileGeneratorUI extends JFrame {
 		rbSpecific = new JRadioButton("Specify file content");
 		rbSpecific.setActionCommand("specific");
 		boxSpecifyElements.add(rbSpecific);
-		taSpecificString = new JTextArea("Enter file content here", 30, 50);
+		taSpecificString = new JTextArea("Enter file content here");
+		taSpecificString.setPreferredSize(new Dimension(414, 40));
 		boxSpecifyElements.add(taSpecificString);
 		chkNumberofStings = new JCheckBox("Repeat content following number of times:");
 		SpinnerModel spinnerModel = new SpinnerNumberModel(1, 1, 1000000, 1);
 		spnNumberOfStrings = new JSpinner(spinnerModel);
+		spnNumberOfStrings.setPreferredSize(new Dimension(60, 25));
 		chkNewLine = new JCheckBox("Use new line for each repeated content");
 		chkSeparator = new JCheckBox("Use this separator for each repeated content:");
-		txtSeparator = new JTextField("", 10);
+		txtSeparator = new JTextField("", 4);
 		setRandomEnabled();
 
 		// ***************** Buttons section ***********************
@@ -143,39 +146,44 @@ public class FileGeneratorUI extends JFrame {
 
 		// ********* forming the gridBagLayout ********
 		Insets insets = new Insets(5, 5, 5, 5);
-		// Insets insets2 = new Insets(5, 5, 5, 300);
-		componentAdd(panelMain, rbRandom, 0, 0, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets);
-		componentAdd(panelMain, lblNumberOfChars, 0, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+		componentAdd(panelMain, rbRandom, 0, 0, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
 				insets);
-		componentAdd(panelMain, txtNumberOfChars, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+		componentAdd(panelMain, lblNumberOfChars, 0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.BOTH, insets);
+		componentAdd(panelMain, txtNumberOfChars, 1, 1, 1, 1, 0.5, 1.0, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.NONE, insets);
+		componentAdd(panelMain, chkNumberofStings, 1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.BOTH, insets);
+		componentAdd(panelMain, boxIncludeCheckBoxes, 0, 3, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.BOTH, insets);
+		componentAdd(panelMain, rbSpecific, 0, 4, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
 				insets);
-		componentAdd(panelMain, chkNumberofStings, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-				insets);
-		componentAdd(panelMain, boxIncludeCheckBoxes, 0, 3, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-				insets);
-		componentAdd(panelMain, rbSpecific, 0, 4, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets);
-		componentAdd(panelMain, rbSpecific, 0, 5, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets);
-		componentAdd(panelMain, taSpecificString, 0, 6, 2, 2, GridBagConstraints.NORTHWEST,
-				GridBagConstraints.HORIZONTAL, insets);
-		componentAdd(panelMain, chkNumberofStings, 0, 8, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-				insets);
-		componentAdd(panelMain, spnNumberOfStrings, 1, 8, 1, 1, GridBagConstraints.NORTHWEST,
-				GridBagConstraints.VERTICAL, insets);
-		componentAdd(panelMain, chkNewLine, 0, 9, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets);
-		componentAdd(panelMain, chkSeparator, 0, 10, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+		componentAdd(panelMain, rbSpecific, 0, 5, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
 				insets);
 
-		componentAdd(panelMain, txtSeparator, 1, 10, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+		componentAdd(panelMain, taSpecificString, 0, 6, 2, 2, 1.0, 1.0, GridBagConstraints.CENTER,
+				GridBagConstraints.NONE, insets);
+		componentAdd(panelMain, chkNumberofStings, 0, 8, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.BOTH, insets);
+		componentAdd(panelMain, spnNumberOfStrings, 1, 8, 1, 1, 0.5, 1.0, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.VERTICAL, insets);
+		componentAdd(panelMain, chkNewLine, 0, 9, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
 				insets);
-		componentAdd(panelMain, lblFileName, 0, 11, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-				insets);
-		componentAdd(panelMain, boxButtons, 0, 12, 2, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets);
+		componentAdd(panelMain, chkSeparator, 0, 10, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.BOTH, insets);
+
+		componentAdd(panelMain, txtSeparator, 1, 10, 1, 1, 0.5, 0.5, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.NONE, insets);
+		componentAdd(panelMain, lblFileName, 0, 11, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.BOTH, insets);
+		componentAdd(panelMain, boxButtons, 0, 12, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
+				GridBagConstraints.BOTH, insets);
 		this.add(panelMain);
-		this.setSize(800, 500);
+		this.setSize(700, 500);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// this.pack();
+		this.pack();
 		this.setTitle("File Generator");
 		this.setVisible(true);
 
@@ -287,7 +295,7 @@ public class FileGeneratorUI extends JFrame {
 	}
 
 	private void componentAdd(JPanel thePanel, JComponent comp, int xPos, int yPos, int compWidth, int compHeight,
-			int place, int stretch, Insets insets) {
+			double compWeightx, double comWeighty, int place, int stretch, Insets insets) {
 		GridBagConstraints gridConstraints = new GridBagConstraints();
 		gridConstraints.gridx = xPos;
 
@@ -300,9 +308,9 @@ public class FileGeneratorUI extends JFrame {
 
 		gridConstraints.gridheight = compHeight;
 
-		gridConstraints.weightx = 100;
+		gridConstraints.weightx = compWeightx;
 
-		gridConstraints.weighty = 100;
+		gridConstraints.weighty = comWeighty;
 
 		gridConstraints.insets = insets;
 
