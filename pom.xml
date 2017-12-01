@@ -58,9 +58,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.0.2</version>
 				<configuration>
-					<includes>
-						<include>${project.build.directory}/lib</include>
-					</includes>
+					
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
@@ -70,6 +68,9 @@
 							</mainClass>
 						</manifest>
 					</archive>
+					<includes>
+						<include>${project.build.directory}/lib</include>
+					</includes>
 				</configuration>
 			</plugin>
 
