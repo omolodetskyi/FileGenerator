@@ -33,6 +33,7 @@ public class FileGeneratorUI extends JFrame {
 
 	// panels for elements
 	JPanel panelMain;
+	JPanel fileNamePanel;
 	Box boxButtons;
 	Box boxIncludeCheckBoxes;
 	Box boxSpecifyElements;
@@ -87,6 +88,7 @@ public class FileGeneratorUI extends JFrame {
 
 		// create main panel
 		panelMain = new JPanel();
+		fileNamePanel = new JPanel();
 		// set GridBagLayout for main panel
 		panelMain.setLayout(new GridBagLayout());
 
@@ -168,25 +170,24 @@ public class FileGeneratorUI extends JFrame {
 				GridBagConstraints.NONE, insets);
 		componentAdd(panelMain, chkNumberofStings, 0, 8, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.BOTH, insets);
-		componentAdd(panelMain, spnNumberOfStrings, 1, 8, 1, 1, 0.5, 1.0, GridBagConstraints.NORTHWEST,
+		componentAdd(panelMain, spnNumberOfStrings, 1, 8, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.VERTICAL, insets);
 		componentAdd(panelMain, chkNewLine, 0, 9, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
 				insets);
 		componentAdd(panelMain, chkSeparator, 0, 10, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.BOTH, insets);
 
-		componentAdd(panelMain, txtSeparator, 1, 10, 1, 1, 0.5, 0.5, GridBagConstraints.NORTHWEST,
+		componentAdd(panelMain, txtSeparator, 1, 10, 1, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.NONE, insets);
 		componentAdd(panelMain, lblFileName, 0, 11, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.BOTH, insets);
 		componentAdd(panelMain, boxButtons, 0, 12, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST,
 				GridBagConstraints.BOTH, insets);
 		this.add(panelMain);
-		this.setSize(700, 500);
+		this.setSize(500, 500);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.pack();
 		this.setTitle("File Generator");
 		this.setVisible(true);
 
@@ -280,11 +281,24 @@ public class FileGeneratorUI extends JFrame {
 		int select = selectDirectory.showDialog(null, "Select Directory");
 		String selectedfilePath;
 		String selectedfileName;
+		String selPathShow, selFileNameShow;
 		if (select == selectDirectory.APPROVE_OPTION) {
 			selectedfilePath = (selectDirectory.getSelectedFile()).getParentFile().getPath();
 			selectedfileName = (selectDirectory.getSelectedFile()).getName();
-			setFilePathLabel("File " + selectedfilePath + "/" + selectedfileName
-					+ " will be generated! Click \"Generate\" button.");
+
+			selPathShow = selectedfilePath;
+			selFileNameShow = selectedfileName;
+
+			if (selectedfilePath.length() > 50) {
+				selPathShow = selectedfilePath.substring(0, 20) + "...";
+
+			}
+			if (selectedfileName.length() > 50) {
+				selFileNameShow = selectedfileName.substring(0, 20) + "...";
+
+			}
+			String msg = "File " + selPathShow + "/" + selFileNameShow + " will be generated!";
+			setFilePathLabel(msg);
 		} else {
 			selectedfilePath = "";
 			selectedfileName = "";
