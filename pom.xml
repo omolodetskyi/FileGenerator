@@ -20,14 +20,6 @@
 			<version>6.8</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>2.9.0</version>
-			<type>pom</type>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
@@ -55,7 +47,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>
-								${project.build.directory}/libs
+								${project.build.directory}/lib
 							</outputDirectory>
 						</configuration>
 					</execution>
@@ -64,16 +56,33 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
 				<configuration>
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<classpathPrefix>libs/</classpathPrefix>
+							<classpathPrefix>lib/</classpathPrefix>
 							<mainClass>
 								filegenerator.App
 							</mainClass>
 						</manifest>
 					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>${project.build.finalName}</descriptorRef>
+					</descriptorRefs>
 				</configuration>
 			</plugin>
 		</plugins>
