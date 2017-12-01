@@ -24,7 +24,11 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class FileGeneratorUI extends JFrame {
+	private static Logger log;
 
 	FileGenerator fg;
 
@@ -84,9 +88,11 @@ public class FileGeneratorUI extends JFrame {
 	// Exit button
 	JButton btnExit;
 
+	// constructor of FileGeneratorUI class
 	public FileGeneratorUI() {
 
 		// create main panel
+		log = LogManager.getLogger(this.getClass().getName());
 		panelMain = new JPanel();
 		fileNamePanel = new JPanel();
 		// set GridBagLayout for main panel
@@ -194,6 +200,7 @@ public class FileGeneratorUI extends JFrame {
 	}
 
 	void setRandomEnabled() {
+		log.debug("Set enabled Random content section");
 		txtNumberOfChars.setEnabled(true);
 
 		chkIncludeUpperCase.setEnabled(true);
@@ -201,6 +208,7 @@ public class FileGeneratorUI extends JFrame {
 		chkIncludeNumbers.setEnabled(true);
 
 		chkIncludeSpecChars.setEnabled(true);
+		log.debug("Set disabled specific content section");
 
 		taSpecificString.setEnabled(false);
 
@@ -212,6 +220,7 @@ public class FileGeneratorUI extends JFrame {
 	}
 
 	void setSpecificEnabled() {
+		log.debug("Set enabled specific content section");
 		taSpecificString.setEnabled(true);
 
 		chkNumberofStings.setEnabled(true);
@@ -220,7 +229,7 @@ public class FileGeneratorUI extends JFrame {
 		chkSeparator.setEnabled(true);
 		txtSeparator.setEnabled(true);
 		txtNumberOfChars.setEnabled(true);
-
+		log.debug("Set disabled Random content section");
 		txtNumberOfChars.setEnabled(false);
 		chkIncludeUpperCase.setEnabled(false);
 
@@ -230,6 +239,7 @@ public class FileGeneratorUI extends JFrame {
 	}
 
 	int getSpinnerValue() {
+		log.debug("Spiner value is " + (Integer) spnNumberOfStrings.getValue());
 
 		return (Integer) spnNumberOfStrings.getValue();
 
@@ -240,6 +250,10 @@ public class FileGeneratorUI extends JFrame {
 		settings[0] = chkIncludeSpecChars.isSelected();
 		settings[1] = chkIncludeNumbers.isSelected();
 		settings[2] = chkIncludeUpperCase.isSelected();
+		log.debug("Settings in UI for random content:");
+		log.debug("* should include spec chars " + settings[0]);
+		log.debug("* should include numbers " + settings[1]);
+		log.debug("* should Upper case " + settings[2]);
 		return settings;
 	}
 
@@ -250,10 +264,12 @@ public class FileGeneratorUI extends JFrame {
 		else {
 			separatorValue = "";
 		}
+		log.debug("Separator value is " + separatorValue);
 		return separatorValue;
 	}
 
 	int getNumberOfCharsVaue() {
+		log.debug("Number of chars value " + txtNumberOfChars.getText());
 		return Integer.parseInt(txtNumberOfChars.getText());
 	}
 
@@ -279,22 +295,28 @@ public class FileGeneratorUI extends JFrame {
 
 	String[] showSelectDirectoryDialog() {
 		int select = selectDirectory.showDialog(null, "Select Directory");
+		log.debug("Select Directory dialog is opened");
 		String selectedfilePath;
 		String selectedfileName;
 		String selPathShow, selFileNameShow;
 		if (select == selectDirectory.APPROVE_OPTION) {
 			selectedfilePath = (selectDirectory.getSelectedFile()).getParentFile().getPath();
+			log.debug("Directory is selected " + selectedfilePath);
 			selectedfileName = (selectDirectory.getSelectedFile()).getName();
-
+			log.debug("Filename is entered " + selectedfileName);
 			selPathShow = selectedfilePath;
 			selFileNameShow = selectedfileName;
 
 			if (selectedfilePath.length() > 50) {
-				selPathShow = selectedfilePath.substring(0, 20) + "...";
+				log.debug("Filepath is longer than 50 chars");
 
+				selPathShow = selectedfilePath.substring(0, 20) + "...";
+				log.debug("Filepath is cut to 20 chars " + selPathShow);
 			}
 			if (selectedfileName.length() > 50) {
+				log.debug("Filename is longer than 50 chars");
 				selFileNameShow = selectedfileName.substring(0, 20) + "...";
+				log.debug("Filename is cut to 20 chars " + selPathShow);
 
 			}
 			String msg = "File " + selPathShow + "/" + selFileNameShow + " will be generated!";
@@ -308,20 +330,28 @@ public class FileGeneratorUI extends JFrame {
 	}
 
 	void setFilePathLabel(String filepath) {
+		log.debug("Show filepath in UI: " + filepath);
 		lblFileName.setText(filepath);
 	}
 
 	class typeInTextArea implements FocusListener {
 
 		public void focusGained(FocusEvent e) {
+			log.debug("User put focus in the text area");
 			if (taSpecificString.getText().equals("Enter file content here")) {
+				log.debug("There is default content in text area");
 				taSpecificString.setText("");
+				log.debug("removed default content of text area");
 			}
 		}
 
 		public void focusLost(FocusEvent e) {
+			log.debug("User put focus out of the text area");
 			if (taSpecificString.getText().equals("")) {
+				log.debug("There is empty content in text area");
+
 				taSpecificString.setText("Enter file content here");
+				log.debug("default content is added to the text area");
 			}
 
 		}

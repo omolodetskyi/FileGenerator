@@ -5,7 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class FileGenerator {
+	private static Logger log;
 	private String fileName;
 	private String filePath;
 	private boolean isRandom;
@@ -15,6 +19,7 @@ public class FileGenerator {
 	}
 
 	public void setRandom(boolean isRandom) {
+		log.debug("Use random file content is set to " + isRandom);
 		this.isRandom = isRandom;
 	}
 
@@ -23,14 +28,17 @@ public class FileGenerator {
 	}
 
 	public void setFileName(String fileName) {
+		log.debug("File name is set to " + fileName);
 		this.fileName = fileName;
 	}
 
 	public String getFilePath() {
+
 		return filePath;
 	}
 
 	public void setFilePath(String filePath) {
+		log.debug("File path is set to " + filePath);
 		this.filePath = filePath;
 	}
 
@@ -39,6 +47,11 @@ public class FileGenerator {
 	}
 
 	public void setFileString(StringBuffer fileString) {
+		if (fileString == null) {
+			log.debug("File content is set to null");
+		} else {
+			log.debug("File content is set to " + fileString.toString());
+		}
 		this.fileString = fileString;
 	}
 
@@ -51,16 +64,19 @@ public class FileGenerator {
 		File file = new File(filePath + "/" + fileName); // create object file
 		try {// catch exceptions
 			file.createNewFile(); // create file
+			log.info("File " + filePath + "/" + fileName + " is created");
 			FileWriter fileWriter = new FileWriter(file); // create FileWriter
 															// to write file
 															// content
 			fileWriter.write(generatedString); // write file content
+			log.debug("Following file content is written " + generatedString);
 			fileWriter.close(); // close FileWriter
 		} catch (IOException e) {
 			// TODO think what to do in this case, probably return some value in
 			// this method 1 if file is created, 0 if file is not created and
 			// show error in UI based on this
-			e.printStackTrace(); // show stack trace
+			log.error("File can not be created or content can not be written");
+			log.error(e.getStackTrace().toString());
 		}
 	}
 
@@ -72,6 +88,12 @@ public class FileGenerator {
 		String resultString; // result will be returned
 		StringBuffer buffer = new StringBuffer(); // buffer to create string
 													// repeated multiple times
+		log.debug("Starting generating file content as multiple user defined strings");
+		log.debug("Settings are:");
+		log.debug("* string to multiply: " + stringToMultiply);
+		log.debug("* number of strings: " + numberOfStrings);
+		log.debug("* should be each string on new line: " + newLine);
+		log.debug("* string separator is " + separator);
 		stringToMultiply = stringToMultiply + separator; // first string with
 															// separtor (if
 															// separator in not
@@ -100,13 +122,19 @@ public class FileGenerator {
 
 		}
 		resultString = buffer.toString(); // make string from stringbuffer
+		log.debug("File content is generated as " + resultString);
 		return resultString; // return string
 
 	}
 
 	public String generateRandomString(int charNumber, boolean includeSpecChar, boolean includeNumbers,
 			boolean includeUpperCase) {
-
+		log.debug("Starting generating file content as random stringв");
+		log.debug("Settings are:");
+		log.debug("* number of charachters :" + charNumber);
+		log.debug("* should include sepcial chars :" + includeSpecChar);
+		log.debug("* should include numbers :" + includeNumbers);
+		log.debug("* should include Upper Case :" + includeUpperCase);
 		// method generates random string which contain charNumber chars, could
 		// contain special chars (includeSpecChar=true), could contain
 		// numbers(includerNumbers=true), could contain upper case
@@ -157,11 +185,17 @@ public class FileGenerator {
 		}
 		resultString = sbRandomChars.toString();// make string from random
 												// string buffer
+		log.debug("File content is generated as " + resultString);
 		return resultString; // return random string
 
 	}
 
+	// constructor of FileGenerator Class
+
 	public FileGenerator() {
+		log = LogManager.getLogger(this.getClass().getName());
+		log.debug("FileGenrator object is created");
+		// initiate all initial settings
 		this.setFileName("");
 		this.setFilePath("");
 		this.setFileString(null);
