@@ -70,8 +70,16 @@ public class FileGeneratorController {
 
 	class Generate implements ActionListener {
 		String generatedString = "";
+		int num = 0;
+		boolean error, fileIsOK; // error is set to true if there is error in
+									// number of chars value
+		// fileIsOK is returned by createFile function and false if file is not
+		// created
 
 		public void actionPerformed(ActionEvent e) {
+			error = false;
+			fileIsOK = true;
+			log.debug("Error value is " + error);
 			log.debug("Generate button is clicked");
 			if (fg.getFilePath().isEmpty() || fg.getFileName().isEmpty()) {
 				log.debug("User did not select any directory or file");
@@ -81,15 +89,27 @@ public class FileGeneratorController {
 				if (fg.getRandom()) {
 					log.debug("User selected random content");
 					boolean[] settings = fgui.getRandomSettings();
-					generatedString = fg.generateRandomString(fgui.getNumberOfCharsVaue(), settings[0], settings[1],
-							settings[2]);
+					num = fgui.getNumberOfCharsValue();
+					if (num < 1) {
+						fgui.showErrorMessage();
+						error = true;
+					} else {
+						generatedString = fg.generateRandomString(num, settings[0], settings[1], settings[2]);
+					}
 				} else {
 					log.debug("User specific content");
 					generatedString = fg.multiplyString(fgui.taSpecificString.getText(), fgui.getSpinnerValue(),
 							fgui.chkNewLine.isSelected(), fgui.getSeparatorValue());
 				}
-				log.debug("Creating file");
-				fg.createFile(fg.getFilePath(), fg.getFileName(), generatedString);
+				if (!error) {
+					log.debug("Creating file");
+					fileIsOK = fg.createFile(fg.getFilePath(), fg.getFileName(), generatedString);
+					if (!fileIsOK) {
+						log.debug("Creating file fails");
+						log.debug("Show error message in UI");
+						fgui.showFileErrorMessage();
+					}
+				}
 			}
 
 		}

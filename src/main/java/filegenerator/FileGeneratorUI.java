@@ -16,6 +16,7 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
@@ -268,9 +269,19 @@ public class FileGeneratorUI extends JFrame {
 		return separatorValue;
 	}
 
-	int getNumberOfCharsVaue() {
+	int getNumberOfCharsValue() {
+
+		int num = 1;
 		log.debug("Number of chars value " + txtNumberOfChars.getText());
-		return Integer.parseInt(txtNumberOfChars.getText());
+		try {
+			num = Integer.parseInt(txtNumberOfChars.getText());
+		} catch (Exception e) {
+			log.error("Number of chars value is non-integer or less than 1!");
+			log.error(e.getStackTrace().toString());
+			num = 0;
+
+		}
+		return num;
 	}
 
 	void addExitListener(ActionListener ExitButton) {
@@ -355,6 +366,20 @@ public class FileGeneratorUI extends JFrame {
 			}
 
 		}
+	}
+
+	void showErrorMessage() {
+		log.debug("Error message is shown");
+		Object[] options = { "OK" };
+		JOptionPane.showOptionDialog(this, "Number of chars can be only ineteger value more than 0!", "Error",
+				JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+	}
+
+	void showFileErrorMessage() {
+		log.debug("File error message is shown");
+		Object[] options = { "OK" };
+		JOptionPane.showOptionDialog(this, "File can not be created or written. Please check file name or permissions.",
+				"Error", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
 	}
 
 	private void componentAdd(JPanel thePanel, JComponent comp, int xPos, int yPos, int compWidth, int compHeight,

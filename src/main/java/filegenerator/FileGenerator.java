@@ -58,9 +58,10 @@ public class FileGenerator {
 	StringBuffer fileString = new StringBuffer(); // file content will be stored
 													// here
 
-	public void createFile(String filePath, String fileName, String generatedString) {
+	public boolean createFile(String filePath, String fileName, String generatedString) {
 		// this method create file based on filePath, fileName and content with
 		// generatedString
+		boolean isOK;
 		File file = new File(filePath + "/" + fileName); // create object file
 		try {// catch exceptions
 			file.createNewFile(); // create file
@@ -71,13 +72,13 @@ public class FileGenerator {
 			fileWriter.write(generatedString); // write file content
 			log.debug("Following file content is written " + generatedString);
 			fileWriter.close(); // close FileWriter
+			isOK = true;
 		} catch (IOException e) {
-			// TODO think what to do in this case, probably return some value in
-			// this method 1 if file is created, 0 if file is not created and
-			// show error in UI based on this
+			isOK = false;
 			log.error("File can not be created or content can not be written");
 			log.error(e.getStackTrace().toString());
 		}
+		return isOK;
 	}
 
 	public String multiplyString(String stringToMultiply, int numberOfStrings, boolean newLine, String separator) {
